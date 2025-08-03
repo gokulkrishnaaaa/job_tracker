@@ -66,7 +66,7 @@ const Dashboard = () => {
           <p className="text-lg font-semibold">{pending}</p>
           <p className="text-sm text-gray-600">Pending</p>
         </div>
-        <div className="bg-blue-100 p-4 rounded-lg text-center">
+        <div className="bg-blue-400 p-4 rounded-lg text-center">
           <p className="text-lg font-semibold">{interview}</p>
           <p className="text-sm text-gray-600">Interview</p>
         </div>
@@ -75,13 +75,14 @@ const Dashboard = () => {
           <p className="text-sm text-gray-600">Declined</p>
         </div>
       </div>
-
-      <div className="bg-white shadow-md rounded-lg p-4 mb-6">
-        <JobForm
-          onJobCreated={fetchJobs}
-          editingJob={editJob}
-          onCancelEdit={() => setEditJob(null)}
-        />
+      <div className="mb-6 flex justify-center">
+        <div className="bg-white shadow-md rounded-lg p-10"> 
+          <JobForm
+            onJobCreated={fetchJobs}
+            editingJob={editJob}
+            onCancelEdit={() => setEditJob(null)}
+          />
+        </div>
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
