@@ -44,7 +44,7 @@ export const getJobs = async (req, res) => {
 
 export const updateJob = async (req, res) => {
   try {
-    const { company, position } = req.body;
+    const { company, position, status } = req.body;
     const { id } = req.params;
 
     let job = await prisma.job.findUnique({
@@ -60,7 +60,7 @@ export const updateJob = async (req, res) => {
       where: {
         id: job.id,
       },
-      data: { company, position },
+      data: { company, position, status },
     });
     res.status(200).json(job);
   } catch (error) {

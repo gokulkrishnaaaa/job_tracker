@@ -6,10 +6,11 @@ import api from '../utils/api.js';
 
 const jobSchema = yup.object().shape({
     company : yup.string().required("Company is required"),
-    position : yup.string().required("Position is required")
+    position : yup.string().required("Position is required"),
+    status: yup.string().oneOf(["pending", "interview", "declined"])
 });
 
-const JobForm = ({ onJobCreated, editingJob }) => {
+const JobForm = ({ onJobCreated, editingJob, onCancelEdit }) => {
 
     const {
         register,
@@ -24,6 +25,7 @@ const JobForm = ({ onJobCreated, editingJob }) => {
         if(editingJob){
             setValue("company", editingJob.company);
             setValue("position", editingJob.position);
+            setValue("status", editingJob.status);
         }
         else{
             reset();
@@ -37,6 +39,7 @@ const JobForm = ({ onJobCreated, editingJob }) => {
                 console.log("Job Updated", res);
                 onJobCreated();
                 reset();
+                onCancelEdit()
             } else {
                 const res =  await api.post("/job/create", data);
                 console.log("Job Created", res);
@@ -74,6 +77,16 @@ const JobForm = ({ onJobCreated, editingJob }) => {
             />
             {errors.position && (
                 <p className="text-red-500 text-sm">{errors.position.message}</p>
+            )}
+            {editingJob && (
+                <select
+                  {...register("status")}
+                  className="border p-2 rounded"
+                >
+                    <option>--Select Status--</option>
+                    <option value="interview">Interview</option>
+                    <option value="declined">Declined</option>
+                </select>
             )}
             <button
              type='submit'

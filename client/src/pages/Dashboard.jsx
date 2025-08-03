@@ -56,6 +56,7 @@ const Dashboard = () => {
         <JobForm
          onJobCreated={fetchJobs}
          editingJob={editJob}
+         onCancelEdit={() => setEditJob(null)}
       />
       </div>
 
