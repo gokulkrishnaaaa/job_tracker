@@ -28,7 +28,7 @@ const Dashboard = () => {
       try {
         const res = await api.delete(`/job/delete/${id}`);
         console.log("Deleted:", res.data);
-        fetchJobs(); // refresh the list
+        fetchJobs();
       } catch (error) {
         console.log("Delete error:", error.response?.data || error.message);
       }
@@ -46,18 +46,42 @@ const Dashboard = () => {
     }
   }, [navigate]);
 
+  const total = jobs.length;
+  const pending = jobs.filter((j) => j.status === "pending").length;
+  const interview = jobs.filter((j) => j.status === "interview").length;
+  const declined = jobs.filter((j) => j.status === "declined").length;
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold mb-6 text-gray-800 text-center">
         Dashboard
       </h1>
 
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="bg-gray-400 p-4 rounded-lg text-center">
+          <p className="text-lg font-semibold">{total}</p>
+          <p className="text-sm text-gray-600">Total Jobs</p>
+        </div>
+        <div className="bg-yellow-500 p-4 rounded-lg text-center">
+          <p className="text-lg font-semibold">{pending}</p>
+          <p className="text-sm text-gray-600">Pending</p>
+        </div>
+        <div className="bg-blue-100 p-4 rounded-lg text-center">
+          <p className="text-lg font-semibold">{interview}</p>
+          <p className="text-sm text-gray-600">Interview</p>
+        </div>
+        <div className="bg-red-400 p-4 rounded-lg text-center">
+          <p className="text-lg font-semibold">{declined}</p>
+          <p className="text-sm text-gray-600">Declined</p>
+        </div>
+      </div>
+
       <div className="bg-white shadow-md rounded-lg p-4 mb-6">
         <JobForm
-         onJobCreated={fetchJobs}
-         editingJob={editJob}
-         onCancelEdit={() => setEditJob(null)}
-      />
+          onJobCreated={fetchJobs}
+          editingJob={editJob}
+          onCancelEdit={() => setEditJob(null)}
+        />
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
